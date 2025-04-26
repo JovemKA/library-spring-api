@@ -46,5 +46,4 @@ public class LivroService {
             throw new RuntimeException("Livro não encontrado com ID: " + id);
         }
     }
-
 }

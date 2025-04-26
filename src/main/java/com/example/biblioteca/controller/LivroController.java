@@ -38,4 +38,19 @@ public class LivroController {
         return livro.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+
+    // Atualizar um livro existente
+    @PutMapping("/{id}")
+    public ResponseEntity<Livro> atualizarLivro(@PathVariable Long id, @RequestBody Livro livro) {
+        livro.setId(id);  // Definindo o ID para o livro a ser atualizado
+        Livro livroAtualizado = livroService.atualizarLivro(livro);
+        return ResponseEntity.ok(livroAtualizado);
+    }
+
+    // Remover um livro
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> removerLivro(@PathVariable Long id) {
+        livroService.removerLivro(id);
+        return ResponseEntity.noContent().build();
+    }
 }

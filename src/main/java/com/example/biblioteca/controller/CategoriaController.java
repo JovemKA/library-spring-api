@@ -15,34 +15,34 @@ import java.util.Optional;
 public class CategoriaController {
 
     @Autowired
-    private CategoriaService categorialoService;
+    private CategoriaService CategoriaService;
 
 
     @GetMapping("/getallcat")
     public List<Categoria> getAllCategorias() {
-        return categorialoService.getAllCategorias();
+        return CategoriaService.getAllCategorias();
     }
     @GetMapping("/getcat/{id}")
     public Categoria getById(@PathVariable Long id) {
-        return categorialoService.getById(id);
+        return CategoriaService.getById(id);
     }
 
 
     @PostMapping("/postcat")
     public Categoria saveCategoria(@RequestBody Categoria categoria) {
-        return categorialoService.saveCategoria(categoria);
+        return CategoriaService.saveCategoria(categoria);
     }
 
 
     @PutMapping("/putcat/{id}")
     public Categoria putCategoria(@PathVariable Long id, @RequestBody Categoria categoria) {
         categoria.setId(id); 
-        return categorialoService.putCategoria(categoria);
+        return CategoriaService.putCategoria(categoria);
     }
 
 
     @DeleteMapping("/delcat/{id}")
     public void delCategoria(@PathVariable Long id) {
-        categorialoService.delCategoria(id);
+        CategoriaService.delCategoria(id);
     }
 }
