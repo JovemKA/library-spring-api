@@ -5,12 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "emprestimos")
 public class Emprestimo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +25,6 @@ public class Emprestimo {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    private Date dataEmprestimo;
-    private Date dataDevolucao;
+    private LocalDate dataEmprestimo;
+    private LocalDate dataDevolucao;
 }

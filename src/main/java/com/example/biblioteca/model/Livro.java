@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Data
@@ -23,9 +24,10 @@ public class Livro {
     @JoinColumn(name = "autor_id", nullable = false) // Define a coluna de chave estrangeira
     private Autor autor;
 
-    @ManyToOne // Relacionamento muitos-para-um com Categoria
-    @JoinColumn(name = "categoria_id", nullable = false) // Define a coluna de chave estrangeira
-    private Categoria categoria;
+   @ManyToOne
+   @JoinColumn(name = "categoria_id", nullable = false)
+   @JsonBackReference
+   private Categoria categoria;
 
     @Column(name = "ano_publicacao") // Nome da coluna no banco de dados
     private Integer anoPublicacao; // Usar Integer para representar o ano
