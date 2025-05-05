@@ -14,20 +14,16 @@ public class CategoriaService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-
     public List<Categoria> getAllCategorias() {
         return categoriaRepository.findAll();
     }
 
-    public Categoria getById(Long id) {
-        return categoriaRepository.findById(id)
-                         .orElseThrow(() -> new RuntimeException("Categoria não encontrada com ID: " + id));
+    public Categoria getById(Long id) { return categoriaRepository.findById(id) .orElseThrow(() -> new RuntimeException("Categoria não encontrada com ID: " + id));
     }
 
     public Categoria saveCategoria(Categoria categoria) {
         return categoriaRepository.save(categoria);
     }
-
 
     public Categoria putCategoria(Categoria categoria) {
         return categoriaRepository.save(categoria);
