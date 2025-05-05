@@ -22,6 +22,9 @@ public class Categoria {
     @Column(nullable = false)
     private String nome;
 
+    @Column(nullable = false)
+    private String descricao;
+
     @OneToMany(mappedBy = "categoria")
     @JsonManagedReference
     private List<Livro> livros = new ArrayList<>();
