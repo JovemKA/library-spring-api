@@ -1,18 +1,21 @@
-# API de Gerenciamento de Biblioteca
+# API de Gestão de Biblioteca
 
 [![Documentação](https://img.shields.io/badge/Documentation-Online-brightgreen)](https://library-spring-api.onrender.com)
 
-## Descrição
+## Sobre o Projeto
 
-Esta API permite o gerenciamento completo de uma biblioteca, abrangendo operações de cadastro, atualização, busca e remoção de livros, autores, usuários, categorias e empréstimos. Ela oferece endpoints RESTful para manipulação dos recursos, com validação e controle de relacionamentos entre as entidades.
+A API de Gestão de Biblioteca é uma aplicação backend para gerenciamento completo de livros, autores, categorias, usuários e empréstimos. Ela fornece endpoints RESTful para operações de criação, leitura, atualização e exclusão (CRUD), permitindo um controle eficiente do acervo e dos empréstimos de uma biblioteca.
 
 ## Recursos e Funcionalidades
 
-- **Livros:** CRUD de livros, com vínculos a autores e categorias, controle de disponibilidade para empréstimo.
-- **Autores:** Cadastro, listagem, alteração e exclusão de autores.
-- **Usuários:** CRUD de usuários da biblioteca.
-- **Categorias:** Gerenciamento de categorias de livros.
-- **Empréstimos:** Registro, controle, listagem e devolução de empréstimos de livros a usuários.
+- **Cadastro de Autores**: Inclui nome, sobrenome e biografia.
+- **Cadastro de Categorias**: Define categorias de livros, como Ficção Científica, Fantasia, etc.
+- **Cadastro de Livros**: Inserção de livros vinculados a autores e categorias.
+- **Cadastro de Usuários**: Gestão de usuários que podem fazer empréstimos.
+- **Empréstimos de Livros**: Registrar, consultar e gerenciar empréstimos de livros.
+- **consulta de Livros**: Buscar livros por título, autor, categoria ou disponibilidade, com filtros opcionais.
+- **Consulta de Autores, Categorias e Usuários**: Buscar registros por nome, sobrenome ou email.
+- **Operações RESTful completas**: Endpoints bem estruturados que seguem boas práticas de desenvolvimento de APIs REST.
 
 ## URL Base
 
@@ -22,9 +25,42 @@ A API está disponível na seguinte URL:
 https://library-spring-api.onrender.com
 ```
 
+## Tecnologias Utilizadas
+
+- **Java 21**
+- **Spring Boot & Jakarta EE**
+- **Spring Data JPA**
+- **Banco de Dados Relacional** (PostgreSQL)
+- **Docker** (opcional para containerização)
+- **Render** (opcional para deployment)
+
+
+
+## Como Executar Localmente
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/JovemKA/library-spring-api
+   cd library-spring-api
+   ```
+   
+2. Configure o banco de dados no arquivo application.properties (ou application.yml) com suas credenciais PostgreSQL:
+   ```properties
+   spring.datasource.url=jdbc:postgresql://localhost:5432/seu_banco
+   spring.datasource.username=seu_usuario
+   spring.datasource.password=sua_senha
+   spring.jpa.hibernate.ddl-auto=update
+   ```
+3. Compile e execute a aplicação:
+   ```bash
+   mvn spring-boot:run
+   ```
+   
+4. Acesse a API em `http://localhost:8080`
+
 ## Endpoints Principais
 
-## Endpoints - Livros
+## Livros
 
 | Método | Endpoint          | Descrição                             |
 |--------|-------------------|---------------------------------------|
@@ -35,7 +71,7 @@ https://library-spring-api.onrender.com
 | DELETE | `/livros/{id}`    | Remove um livro                       |
 
 
-## Endpoints - Autores
+## Autores
 
 | Método | Endpoint           | Descrição                            |
 |--------|--------------------|--------------------------------------|
@@ -46,7 +82,7 @@ https://library-spring-api.onrender.com
 | DELETE | `/autores/{id}`    | Remove um autor                      |
 
 
-## Endpoints - Usuários
+## Usuários
 
 | Método | Endpoint            | Descrição                             |
 |--------|---------------------|---------------------------------------|
@@ -56,7 +92,7 @@ https://library-spring-api.onrender.com
 | PUT    | `/usuarios/{id}`    | Atualiza um usuário                   |
 | DELETE | `/usuarios/{id}`    | Remove um usuário                     |
 
-## Endpoints - Categorias
+## Categorias
 
 | Método | Endpoint              | Descrição                            |
 |--------|-----------------------|--------------------------------------|
@@ -66,7 +102,7 @@ https://library-spring-api.onrender.com
 | PUT    | `/categorias/{id}`    | Atualiza uma categoria               |
 | DELETE | `/categorias/{id}`    | Remove uma categoria                 |
 
-## Endpoints - Empréstimos
+## Empréstimos
 
 | Método | Endpoint                         | Descrição                 |
 |--------|----------------------------------|---------------------------|
@@ -77,7 +113,6 @@ https://library-spring-api.onrender.com
 | DELETE | `/emprestimos/{id}`              | Remove um empréstimo      |
 
 ## Exemplos de Uso
-
 
 ### Listar todos os livros
 
@@ -758,28 +793,3 @@ DELETE /emprestimos/7
   "message": "Empréstimo removido com sucesso."
 }
 ```
-
-## Tecnologias Utilizadas
-
-- **Java 21**
-- **Spring Boot & Jakarta EE**
-- **Spring Data JPA**
-- **Banco de Dados Relacional**
-- **Docker**
-- **Render**
-
-## Como Executar Localmente
-
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/JovemKA/library-spring-api
-   cd library-spring-api/
-   ```
-2. Compile e inicie a aplicação:
-   ```bash
-   mvn spring-boot:run
-   ```
-3. Acesse a API local em:
-   ```
-   http://localhost:8080/
-   ```
