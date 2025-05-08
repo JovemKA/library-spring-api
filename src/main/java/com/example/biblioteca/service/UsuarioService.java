@@ -1,5 +1,6 @@
 package com.example.biblioteca.service;
 
+import com.example.biblioteca.dto.UsuarioResumoDTO;
 import com.example.biblioteca.model.Usuario;
 import com.example.biblioteca.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,29 +15,33 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    // Listar todos os usuários
-    public List<Usuario> listarUsuarios() {
-        return usuarioRepository.findAll();
+    public List<UsuarioResumoDTO> listarUsuarios() {
+        return usuarioRepository.findAll().stream()
+                .map(this::toUsuarioDTO)
+                .toList();
     }
 
-    // Obter um usuário por ID
+    public UsuarioResumoDTO toUsuarioDTO(Usuario usuario) {
+        UsuarioResumoDTO dto = new UsuarioResumoDTO();
+        dto.setId(usuario.getId());
+        dto.setNome(usuario.getNome());
+        dto.setEmail(usuario.getEmail());
+        return dto;
+    }
+
     public Optional<Usuario> obterUsuarioPorId(Long id) {
         return usuarioRepository.findById(id);
     }
 
-    // Adicionar um usuário
     public Usuario adicionarUsuario(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
 
-    // Atualizar um usuário existente
     public Usuario atualizarUsuario(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
 
-    // Remover um usuário
     public void removerUsuario(Long id) {
         usuarioRepository.deleteById(id);
     }
-
 }

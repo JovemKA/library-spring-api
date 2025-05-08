@@ -1,5 +1,6 @@
 package com.example.biblioteca.controller;
 
+import com.example.biblioteca.dto.AutorResumidoDTO;
 import com.example.biblioteca.model.Autor;
 import com.example.biblioteca.service.AutorService;
 
@@ -20,18 +21,18 @@ public class AutorController {
     @Autowired
     private AutorService autorService;
 
-    // Listar todos os autores
+    // Listar todos os autores (Agora usando DTO)
     @GetMapping
-    public ResponseEntity<List<Autor>> listarAutores() {
+    public ResponseEntity<List<AutorResumidoDTO>> listarAutores() {
         return ResponseEntity.ok(autorService.listarAutores());
     }
 
-    // Buscar autor por id
+    // Buscar autor por id (opcionalmente pode usar um DTO também se desejar)
     @GetMapping("/{id}")
-    public ResponseEntity<Autor> obterAutorPorId(@PathVariable Long id) {
+    public ResponseEntity<AutorResumidoDTO> obterAutorPorId(@PathVariable Long id) {
         Optional<Autor> autor = autorService.obterAutorPorId(id);
-        return autor.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return autor.map(a -> ResponseEntity.ok(autorService.toAutorResumidoDTO(a)))
+                    .orElse(ResponseEntity.notFound().build());
     }
 
     // Criar um novo Autor
@@ -50,6 +51,7 @@ public class AutorController {
     }
 
     // Remover autor
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> removerAutor(@PathVariable Long id) {
         autorService.removerAutor(id);
         return ResponseEntity.noContent().build();

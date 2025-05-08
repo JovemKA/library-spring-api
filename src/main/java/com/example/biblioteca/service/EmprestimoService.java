@@ -1,5 +1,6 @@
 package com.example.biblioteca.service;
 
+import com.example.biblioteca.dto.EmprestimoDTO;
 import com.example.biblioteca.model.Emprestimo;
 import com.example.biblioteca.repository.EmprestimoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,20 @@ public class EmprestimoService {
     @Autowired
     private EmprestimoRepository emprestimoRepository;
 
-    public List<Emprestimo> listarEmprestimos() {
-        return emprestimoRepository.findAll();
+    public List<EmprestimoDTO> listarEmprestimos() {
+        return emprestimoRepository.findAll().stream()
+                .map(this::toEmprestimoDTO)
+                .toList();
+    }
+
+    public EmprestimoDTO toEmprestimoDTO(Emprestimo emprestimo) {
+        EmprestimoDTO dto = new EmprestimoDTO();
+        dto.setId(emprestimo.getId());
+        dto.setDataEmprestimo(emprestimo.getDataEmprestimo());
+        dto.setDataDevolucao(emprestimo.getDataDevolucao());
+        dto.setTituloLivro(emprestimo.getLivro().getTitulo());
+
+        return dto;
     }
 
     public Optional<Emprestimo> obterEmprestimoPorId(Long id) {

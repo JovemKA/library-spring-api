@@ -1,5 +1,6 @@
 package com.example.biblioteca.service;
 
+import com.example.biblioteca.dto.AutorResumidoDTO;
 import com.example.biblioteca.model.Autor;
 import com.example.biblioteca.repository.AutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,19 @@ public class AutorService {
     @Autowired
     private AutorRepository autorRepository;
 
-    public List<Autor> listarAutores() {
-        return autorRepository.findAll();
+    public List<AutorResumidoDTO> listarAutores() {
+        return autorRepository.findAll().stream()
+            .map(this::toAutorResumidoDTO)
+            .toList();
+    }
+
+    public AutorResumidoDTO toAutorResumidoDTO(Autor autor) {
+        AutorResumidoDTO dto = new AutorResumidoDTO();
+        dto.setId(autor.getId());
+        dto.setNome(autor.getNome());
+        dto.setSobrenome(autor.getSobrenome());
+        dto.setBiografia(autor.getBiografia());
+        return dto;
     }
 
     public Optional<Autor> obterAutorPorId(Long id) {

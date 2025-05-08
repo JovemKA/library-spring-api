@@ -1,5 +1,6 @@
 package com.example.biblioteca.controller;
 
+import com.example.biblioteca.dto.LivroDTO;
 import com.example.biblioteca.model.Livro;
 import com.example.biblioteca.service.LivroService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,32 +20,56 @@ public class LivroController {
 
     // Criar um novo livro
     @PostMapping
-    public ResponseEntity<Livro> adicionarLivro(@RequestBody Livro livro) {
+    public ResponseEntity<LivroDTO> adicionarLivro(@RequestBody Livro livro) {
         Livro novoLivro = livroService.adicionarLivro(livro);
-        return new ResponseEntity<>(novoLivro, HttpStatus.CREATED);
+        LivroDTO livroDTO = livroService.toLivroDTO(novoLivro);
+        return new ResponseEntity<>(livroDTO, HttpStatus.CREATED);
     }
 
-    // Listar todos os livros
+    // Listar todos os livros, com filtros opcionais
     @GetMapping
-    public ResponseEntity<List<Livro>> listarLivros() {
-        List<Livro> livros = livroService.listarLivros();
-        return new ResponseEntity<>(livros, HttpStatus.OK);
+    public ResponseEntity<List<LivroDTO>> listarLivros(
+            @RequestParam(required = false) String titulo,
+            @RequestParam(required = false) String nomeAutor,
+            @RequestParam(required = false) String sobrenomeAutor,
+            @RequestParam(required = false) String nomeCompletoAutor,
+            @RequestParam(required = false) Integer anoPublicacao,
+            @RequestParam(required = false) Boolean disponivel) {
+
+        List<LivroDTO> livros;
+
+        if (nomeAutor != null && sobrenomeAutor != null) {
+            livros = livroService.buscarPorAutor(nomeAutor, sobrenomeAutor);
+        } else if (nomeCompletoAutor != null) {
+            livros = livroService.buscarPorNomeAutorCompleto(nomeCompletoAutor);
+        } else if (titulo != null) {
+            livros = livroService.buscarPorTitulo(titulo);
+        } else if (anoPublicacao != null) {
+            livros = livroService.buscarPorAnoPublicacao(anoPublicacao);
+        } else if (disponivel != null) {
+            livros = livroService.buscarPorDisponibilidade(disponivel);
+        } else {
+            livros = livroService.listarLivros();
+        }
+
+        return ResponseEntity.ok(livros);
     }
 
     // Obter um livro por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Livro> obterlivroPorId(@PathVariable Long id) {
-        Optional<Livro> livro = livroService.obterLivroPorId(id);
-        return livro.map(ResponseEntity::ok)
+    public ResponseEntity<LivroDTO> obterLivroPorId(@PathVariable Long id) {
+        Optional<LivroDTO> livroDTO = livroService.obterLivroPorId(id);
+        return livroDTO.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     // Atualizar um livro existente
     @PutMapping("/{id}")
-    public ResponseEntity<Livro> atualizarLivro(@PathVariable Long id, @RequestBody Livro livro) {
-        livro.setId(id);  // Definindo o ID para o livro a ser atualizado
+    public ResponseEntity<LivroDTO> atualizarLivro(@PathVariable Long id, @RequestBody Livro livro) {
+        livro.setId(id);
         Livro livroAtualizado = livroService.atualizarLivro(livro);
-        return ResponseEntity.ok(livroAtualizado);
+        LivroDTO livroDTO = livroService.toLivroDTO(livroAtualizado);
+        return ResponseEntity.ok(livroDTO);
     }
 
     // Remover um livro
