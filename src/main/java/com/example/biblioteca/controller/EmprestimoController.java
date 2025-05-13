@@ -37,10 +37,11 @@ public class EmprestimoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Emprestimo> atualizarEmprestimo(@PathVariable Long id, @RequestBody Emprestimo emprestimo) {
+    public ResponseEntity<EmprestimoDTO> atualizarEmprestimo(@PathVariable Long id, @RequestBody Emprestimo emprestimo) {
         emprestimo.setId(id);
         Emprestimo emprestimoAtualizado = emprestimoService.atualizarEmprestimo(emprestimo);
-        return ResponseEntity.ok(emprestimoAtualizado);
+        EmprestimoDTO emprestimoDTO = emprestimoService.toEmprestimoDTO(emprestimoAtualizado);
+        return ResponseEntity.ok(emprestimoDTO);
     }
 
     @DeleteMapping("/{id}")

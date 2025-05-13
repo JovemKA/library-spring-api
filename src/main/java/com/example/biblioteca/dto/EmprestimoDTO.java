@@ -10,5 +10,6 @@ public class EmprestimoDTO {
     private LocalDate dataDevolucao;
     private LocalDate dataEmprestimo;
 
+    private UsuarioResumoDTO usuario;
     private String tituloLivro;
 }

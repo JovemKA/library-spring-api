@@ -1,7 +1,9 @@
 package com.example.biblioteca.service;
 
 import com.example.biblioteca.dto.EmprestimoDTO;
+import com.example.biblioteca.dto.UsuarioResumoDTO;
 import com.example.biblioteca.model.Emprestimo;
+import com.example.biblioteca.model.Usuario;
 import com.example.biblioteca.repository.EmprestimoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,6 +59,17 @@ public class EmprestimoService {
         dto.setId(emprestimo.getId());
         dto.setDataEmprestimo(emprestimo.getDataEmprestimo());
         dto.setDataDevolucao(emprestimo.getDataDevolucao());
+
+        Usuario usuario = emprestimo.getUsuario();
+        if (usuario != null) {
+            UsuarioResumoDTO usuarioResumo = new UsuarioResumoDTO();
+            usuarioResumo.setId(usuario.getId());
+            usuarioResumo.setNome(usuario.getNome());
+            dto.setUsuario(usuarioResumo);
+        } else {
+            dto.setUsuario(null);
+        }
+
         dto.setTituloLivro(
             emprestimo.getLivro() != null ? emprestimo.getLivro().getTitulo() : null
         );
