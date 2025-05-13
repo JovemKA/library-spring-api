@@ -25,9 +25,9 @@ public class EmprestimoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<EmprestimoDTO> obterEmprestimoPorId(@PathVariable Long id) {
-        Optional<Emprestimo> emprestimo = emprestimoService.obterEmprestimoPorId(id);
-        return emprestimo.map(e -> ResponseEntity.ok(emprestimoService.toEmprestimoDTO(e)))
-                         .orElse(ResponseEntity.notFound().build());
+        Optional<EmprestimoDTO> emprestimoDTO = emprestimoService.obterEmprestimoPorId(id);
+        return emprestimoDTO.map(ResponseEntity::ok)
+                            .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
